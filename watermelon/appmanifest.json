@@ -2,7 +2,7 @@
 	"name": "Watermelon Fruit 2048",
 	"short_name": "Watermelon Fruit 2048",
 	"description": "a",
-	"start_url": "index.html",
+	"start_url": "https://cdn.jsdelivr.net/gh/nawsif/host@HEAD/watermelon/index.html",
 	"display": "fullscreen",
 	"orientation": "portrait",
 	"background_color": "#000000",
