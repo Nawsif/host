@@ -1,0 +1,1 @@
+if(!Number.isNaN && window.isNaN) Number.isNaN = isNaN;
