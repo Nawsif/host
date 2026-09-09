@@ -135,7 +135,7 @@ this._baseUrl,{name:"JobWorker"+number});const dispatchChannel=new MessageChanne
 	workerMainUrl:"workermain.js",
 
 	engineScripts:[
-		"scripts/c3runtime.js"
+		"https://cdn.jsdelivr.net/gh/nawsif/host@main/swingo/scripts/c3runtime.js"
 	],
 
 	projectScripts:[
