@@ -127,30 +127,8 @@ this._baseUrl,{name:"JobWorker"+number});const dispatchChannel=new MessageChanne
 "outputPort":this._outputPort,"maxNumWorkers":this._maxNumWorkers}}GetPortTransferables(){return[this._inputPort,this._outputPort]}}};
 
 
-'use strict';{if(window["C3_IsSupported"]){const enableWorker=false;window["c3_runtimeInterface"]=new self.RuntimeInterface({
-	useWorker:enableWorker,
-
-	runtimeBaseUrl:"https://cdn.jsdelivr.net/gh/nawsif/host@main/swingo/",
-
-	workerMainUrl:"workermain.js",
-
-	engineScripts:[
-		"https://cdn.jsdelivr.net/gh/nawsif/host@main/swingo/scripts/c3runtime.js"
-	],
-
-	projectScripts:[
-		["scripts/project/main.js"],
-		["scripts/project/scriptsInEvents.js"]
-	],
-
-	mainProjectScript:"scripts/project/main.js",
-
-	scriptFolder:"scripts/",
-
-	workerDependencyScripts:[],
-
-	exportType:"html5"
-})}};'use strict';{function elemsForSelector(selector,isAll){if(!selector)return[document.documentElement];else if(isAll)return Array.from(document.querySelectorAll(selector));else{const e=document.querySelector(selector);return e?[e]:[]}}function noop(){}const DOM_COMPONENT_ID="browser";const HANDLER_CLASS=class BrowserDOMHandler extends self.DOMHandler{constructor(iRuntime){super(iRuntime,DOM_COMPONENT_ID);this._exportType="";this.AddRuntimeMessageHandlers([["get-initial-state",e=>this._OnGetInitialState(e)],
+'use strict';{if(window["C3_IsSupported"]){const enableWorker=false;window["c3_runtimeInterface"]=new self.RuntimeInterface({useWorker:enableWorker,workerMainUrl:"workermain.js",engineScripts:["scripts/c3runtime.js"],projectScripts:[["scripts/project/main.js"], ["scripts/project/scriptsInEvents.js"]],mainProjectScript:"scripts/project/main.js",scriptFolder:"scripts/",workerDependencyScripts:[],exportType:"html5"})}};
+'use strict';{function elemsForSelector(selector,isAll){if(!selector)return[document.documentElement];else if(isAll)return Array.from(document.querySelectorAll(selector));else{const e=document.querySelector(selector);return e?[e]:[]}}function noop(){}const DOM_COMPONENT_ID="browser";const HANDLER_CLASS=class BrowserDOMHandler extends self.DOMHandler{constructor(iRuntime){super(iRuntime,DOM_COMPONENT_ID);this._exportType="";this.AddRuntimeMessageHandlers([["get-initial-state",e=>this._OnGetInitialState(e)],
 ["ready-for-sw-messages",()=>this._OnReadyForSWMessages()],["alert",e=>this._OnAlert(e)],["close",()=>this._OnClose()],["set-focus",e=>this._OnSetFocus(e)],["vibrate",e=>this._OnVibrate(e)],["lock-orientation",e=>this._OnLockOrientation(e)],["unlock-orientation",()=>this._OnUnlockOrientation()],["navigate",e=>this._OnNavigate(e)],["request-fullscreen",e=>this._OnRequestFullscreen(e)],["exit-fullscreen",()=>this._OnExitFullscreen()],["set-hash",e=>this._OnSetHash(e)],["set-document-css-style",e=>this._OnSetDocumentCSSStyle(e)],
 ["get-document-css-style",e=>this._OnGetDocumentCSSStyle(e)]]);window.addEventListener("online",()=>this._OnOnlineStateChanged(true));window.addEventListener("offline",()=>this._OnOnlineStateChanged(false));window.addEventListener("hashchange",()=>this._OnHashChange());document.addEventListener("backbutton",()=>this._OnCordovaBackButton())}_OnGetInitialState(e){this._exportType=e["exportType"];return{"location":location.toString(),"isOnline":!!navigator.onLine,"referrer":document.referrer,"title":document.title,
 "isCookieEnabled":!!navigator.cookieEnabled,"screenWidth":screen.width,"screenHeight":screen.height,"windowOuterWidth":window.outerWidth,"windowOuterHeight":window.outerHeight,"isConstructArcade":typeof window["is_scirra_arcade"]!=="undefined"}}_OnReadyForSWMessages(){if(!window["C3_RegisterSW"]||!window["OfflineClientInfo"])return;window["OfflineClientInfo"]["SetMessageCallback"](e=>this.PostToRuntime("sw-message",e["data"]))}_OnOnlineStateChanged(isOnline){this.PostToRuntime("online-state",{"isOnline":isOnline})}_OnCordovaBackButton(){this.PostToRuntime("backbutton")}GetNWjsWindow(){if(this._exportType===
@@ -374,7 +352,7 @@ globalThis.WebSdkWrapper = (function () {
 	  get sdk() {
 		return globalThis.PokiSDK;
 	  },
-	  scriptSrc: "/poki-sdk.js",
+	  scriptSrc: "patch/js/poki-sdk.js",
 	  hasAds: true,
 	  hasBanner: false,
 	  enableOnlyInProduction: false,
@@ -441,7 +419,7 @@ globalThis.WebSdkWrapper = (function () {
 	  get sdk() {
 		return globalThis.FBInstant;
 	  },
-	  scriptSrc: "//connect.facebook.net/en_US/sdk.js",
+	  scriptSrc: "patch/js/null.js?connect.facebook.net/en_US/sdk.js",
 	  hasAds: true,
 	  hasBanner: true,
 	  enableOnlyInProduction: true,
