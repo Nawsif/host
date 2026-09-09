@@ -130,7 +130,7 @@ this._baseUrl,{name:"JobWorker"+number});const dispatchChannel=new MessageChanne
 'use strict';{if(window["C3_IsSupported"]){const enableWorker=false;window["c3_runtimeInterface"]=new self.RuntimeInterface({
 	useWorker:enableWorker,
 
-	runtimeBaseUrl:"https://cdn.jsdelivr.net/gh/tinklehost/hosting@main/swingo/",
+	runtimeBaseUrl:"https://cdn.jsdelivr.net/gh/nawsif/host@main/swingo/",
 
 	workerMainUrl:"workermain.js",
 
