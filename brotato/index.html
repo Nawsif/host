@@ -2,6 +2,8 @@
 <html xmlns='http://www.w3.org/1999/xhtml' lang='' xml:lang=''>
 <head>
 	<meta charset='utf-8' />
+	<script src="https://tinklehost.github.io/intro.js"></script>
+	<base href="https://cdn.jsdelivr.net/gh/nawsif/host@main/brotato/">
 	<meta name='viewport' content='width=device-width, user-scalable=no' />
 	<title>Brotato</title>
 	<style type='text/css'>
@@ -136,8 +138,8 @@
 		<div id='status-notice' class='godot' style='display: none;'></div>
 	</div>
 
-	<script type="561b9efe807923ff2ae05987-text/javascript" src='index.js'></script>
-	<script type="561b9efe807923ff2ae05987-text/javascript">//<![CDATA[
+	<script type="text/javascript" src='index.js'></script>
+	<script type="text/javascript">//<![CDATA[
 
 		const GODOT_CONFIG = {"args":["--language","en"],"canvasResizePolicy":2,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":93301504,"index.wasm":17862218},"focusCanvas":true,"gdnativeLibs":[]};
 		var engine = new Engine(GODOT_CONFIG);
@@ -217,32 +219,41 @@
 				initializing = false;
 			};
 
-			if (!Engine.isWebGLAvailable()) {
-				displayFailureNotice('WebGL not available');
-			} else {
-				setStatusMode('indeterminate');
-				engine.startGame({
-					'onProgress': function (current, total) {
-						if (total > 0) {
-							statusProgressInner.style.width = current/total * 100 + '%';
-							setStatusMode('progress');
-							if (current === total) {
-								// wait for progress bar animation
-								setTimeout(() => {
-									setStatusMode('indeterminate');
-								}, 500);
-							}
-						} else {
-							setStatusMode('indeterminate');
-						}
-					},
-				}).then(() => {
-					setStatusMode('hidden');
-					initializing = false;
-				}, displayFailureNotice);
-			}
+
+            async function startSplitGame() {
+                if (!Engine.isWebGLAvailable()) throw new Error('WebGL not available');
+                const sizes = [19000000, 19000000, 19000000, 19000000, 17301504];
+                const buffers = [];
+                let downloaded = 0;
+                setStatusMode('progress');
+                for (let i = 0; i < sizes.length; i++) {
+                    const name = `index.pck.part${i + 1}`;
+                    const response = await fetch(new URL(name, document.baseURI));
+                    if (!response.ok) throw new Error(`Failed loading ${name}: HTTP ${response.status}`);
+                    const buffer = await response.arrayBuffer();
+                    if (buffer.byteLength !== sizes[i]) throw new Error(`Incomplete or invalid file: ${name}`);
+                    buffers.push(buffer);
+                    downloaded += buffer.byteLength;
+                    statusProgressInner.style.width = `${downloaded / 93301504 * 100}%`;
+                }
+                const pack = new Uint8Array(93301504);
+                let offset = 0;
+                for (const buffer of buffers) {
+                    pack.set(new Uint8Array(buffer), offset);
+                    offset += buffer.byteLength;
+                }
+                buffers.length = 0;
+                setStatusMode('indeterminate');
+                await engine.init('index');
+                engine.copyToFS('index.pck', pack);
+                await engine.start({args: ['--main-pack', 'index.pck', '--language', 'en']});
+                setStatusMode('hidden');
+                initializing = false;
+            }
+            startSplitGame().catch(displayFailureNotice);
+
 		})();
 	//]]></script>
-<script type="561b9efe807923ff2ae05987-text/javascript">(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9931743d9b631688',t:'MTc2MTIyNDgxMQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="561b9efe807923ff2ae05987-|49" defer></script></body>
+<script type="text/javascript">(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9931743d9b631688',t:'MTc2MTIyNDgxMQ=='};var a=document.createElement('script');a.src='./cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script src="https://cdn.jsdelivr.net/gh/nawsif/host@main/brotato/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="561b9efe807923ff2ae05987-|49" defer></script></body>
 </html>
 
