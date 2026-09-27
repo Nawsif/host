@@ -1,0 +1,112 @@
+{
+  "asset" : {
+    "generator" : "Ball Soccer asset",
+    "version" : "2.0"
+  },
+  "scene" : 0,
+  "scenes" : [
+    {
+      "nodes" : [ 0 ]
+    }
+  ],
+  "nodes" : [
+    {
+      "name" : "ball",
+      "mesh" : 0
+    }
+  ],
+  "materials" : [
+    {
+      "name" : "ball-material",
+      "pbrMetallicRoughness" : {
+        "baseColorFactor" : [ 0.3, 0.3, 0.3, 1.0 ],
+        "metallicFactor" : 0.1,
+        "roughnessFactor" : 0.5
+      }
+    }
+  ],
+  "meshes" : [
+    {
+      "primitives" : [
+        {
+          "attributes" : {
+            "POSITION" : 1,
+            "NORMAL" : 2,
+            "TANGENT" : 3,
+            "TEXCOORD_0" : 4
+          },
+          "indices" : 0,
+          "material" : 0
+        }
+      ],
+      "name" : "ball"
+    }
+  ],
+  "buffers" : [
+    {
+      "uri" : "ball.bin",
+      "byteLength" : 147552
+    }
+  ],
+  "bufferViews" : [
+    {
+      "buffer" : 0,
+      "byteOffset" : 0,
+      "byteLength" : 26496
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 26496,
+      "byteLength" : 30264
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 56760,
+      "byteLength" : 30264
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 87024,
+      "byteLength" : 40352
+    },
+    {
+      "buffer" : 0,
+      "byteOffset" : 127376,
+      "byteLength" : 20176
+    }
+  ],
+  "accessors" : [
+    {
+      "bufferView" : 0,
+      "componentType" : 5123,
+      "count" : 13248,
+      "type" : "SCALAR"
+    },
+    {
+      "bufferView" : 1,
+      "min" : [ -0.954173, -0.944231, -0.954172 ],
+      "max" : [ 0.894529, 0.945513, 0.891469 ],
+      "componentType" : 5126,
+      "count" : 2522,
+      "type" : "VEC3"
+    },
+    {
+      "bufferView" : 2,
+      "componentType" : 5126,
+      "count" : 2522,
+      "type" : "VEC3"
+    },
+    {
+      "bufferView" : 3,
+      "componentType" : 5126,
+      "count" : 2522,
+      "type" : "VEC4"
+    },
+    {
+      "bufferView" : 4,
+      "componentType" : 5126,
+      "count" : 2522,
+      "type" : "VEC2"
+    }
+  ]
+}

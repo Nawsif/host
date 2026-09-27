@@ -1,0 +1,291 @@
+{
+  "loaded": [
+    {
+      "file": "loaded-01.wav",
+      "frequencyHz": 24.665981500513876,
+      "cycles": 13,
+      "frames": 25298,
+      "phaseOffsetCycles": 0.0
+    },
+    {
+      "file": "loaded-02.wav",
+      "frequencyHz": 25.93192868719611,
+      "cycles": 14,
+      "frames": 25914,
+      "phaseOffsetCycles": 0.5732421875
+    },
+    {
+      "file": "loaded-03.wav",
+      "frequencyHz": 27.507163323782233,
+      "cycles": 15,
+      "frames": 26175,
+      "phaseOffsetCycles": 0.17431640625
+    },
+    {
+      "file": "loaded-04.wav",
+      "frequencyHz": 29.020556227327692,
+      "cycles": 16,
+      "frames": 26464,
+      "phaseOffsetCycles": 0.740234375
+    },
+    {
+      "file": "loaded-05.wav",
+      "frequencyHz": 30.749519538757205,
+      "cycles": 17,
+      "frames": 26537,
+      "phaseOffsetCycles": 0.27197265625
+    },
+    {
+      "file": "loaded-06.wav",
+      "frequencyHz": 32.54237288135593,
+      "cycles": 18,
+      "frames": 26550,
+      "phaseOffsetCycles": 0.52685546875
+    },
+    {
+      "file": "loaded-07.wav",
+      "frequencyHz": 34.73227206946454,
+      "cycles": 19,
+      "frames": 26258,
+      "phaseOffsetCycles": 0.142578125
+    },
+    {
+      "file": "loaded-08.wav",
+      "frequencyHz": 36.61327231121282,
+      "cycles": 20,
+      "frames": 26220,
+      "phaseOffsetCycles": 0.5087890625
+    },
+    {
+      "file": "loaded-09.wav",
+      "frequencyHz": 38.43074459567654,
+      "cycles": 22,
+      "frames": 27478,
+      "phaseOffsetCycles": 0.97216796875
+    },
+    {
+      "file": "loaded-10.wav",
+      "frequencyHz": 39.93344425956739,
+      "cycles": 22,
+      "frames": 26444,
+      "phaseOffsetCycles": 0.01953125
+    },
+    {
+      "file": "loaded-11.wav",
+      "frequencyHz": 41.92139737991266,
+      "cycles": 24,
+      "frames": 27480,
+      "phaseOffsetCycles": 0.33056640625
+    },
+    {
+      "file": "loaded-12.wav",
+      "frequencyHz": 43.04932735426009,
+      "cycles": 24,
+      "frames": 26760,
+      "phaseOffsetCycles": 0.6337890625
+    },
+    {
+      "file": "loaded-13.wav",
+      "frequencyHz": 44.19889502762431,
+      "cycles": 25,
+      "frames": 27150,
+      "phaseOffsetCycles": 0.31884765625
+    },
+    {
+      "file": "loaded-14.wav",
+      "frequencyHz": 45.411542100283825,
+      "cycles": 26,
+      "frames": 27482,
+      "phaseOffsetCycles": 0.65185546875
+    },
+    {
+      "file": "loaded-15.wav",
+      "frequencyHz": 46.33204633204633,
+      "cycles": 26,
+      "frames": 26936,
+      "phaseOffsetCycles": 0.3125
+    },
+    {
+      "file": "loaded-16.wav",
+      "frequencyHz": 47.430830039525695,
+      "cycles": 27,
+      "frames": 27324,
+      "phaseOffsetCycles": 0.80126953125
+    },
+    {
+      "file": "loaded-17.wav",
+      "frequencyHz": 48.09619238476954,
+      "cycles": 27,
+      "frames": 26946,
+      "phaseOffsetCycles": 0.9326171875
+    },
+    {
+      "file": "loaded-18.wav",
+      "frequencyHz": 48.97959183673469,
+      "cycles": 28,
+      "frames": 27440,
+      "phaseOffsetCycles": 0.4619140625
+    },
+    {
+      "file": "loaded-19.wav",
+      "frequencyHz": 50.0,
+      "cycles": 29,
+      "frames": 27840,
+      "phaseOffsetCycles": 0.85009765625
+    },
+    {
+      "file": "loaded-20.wav",
+      "frequencyHz": 50.5795574288725,
+      "cycles": 29,
+      "frames": 27521,
+      "phaseOffsetCycles": 0.10888671875
+    }
+  ],
+  "coast": [
+    {
+      "file": "coast-01.wav",
+      "frequencyHz": 10.09888491479066,
+      "cycles": 5,
+      "frames": 23765,
+      "phaseOffsetCycles": 0.3525390625
+    },
+    {
+      "file": "coast-02.wav",
+      "frequencyHz": 18.447348193697156,
+      "cycles": 10,
+      "frames": 26020,
+      "phaseOffsetCycles": 0.54736328125
+    },
+    {
+      "file": "coast-03.wav",
+      "frequencyHz": 21.22954444935869,
+      "cycles": 11,
+      "frames": 24871,
+      "phaseOffsetCycles": 0.5205078125
+    },
+    {
+      "file": "coast-04.wav",
+      "frequencyHz": 23.517883390494855,
+      "cycles": 13,
+      "frames": 26533,
+      "phaseOffsetCycles": 0.36376953125
+    },
+    {
+      "file": "coast-05.wav",
+      "frequencyHz": 25.572722429408632,
+      "cycles": 14,
+      "frames": 26278,
+      "phaseOffsetCycles": 0.34521484375
+    },
+    {
+      "file": "coast-06.wav",
+      "frequencyHz": 27.475672581568404,
+      "cycles": 15,
+      "frames": 26205,
+      "phaseOffsetCycles": 0.361328125
+    },
+    {
+      "file": "coast-07.wav",
+      "frequencyHz": 29.020556227327692,
+      "cycles": 16,
+      "frames": 26464,
+      "phaseOffsetCycles": 0.4033203125
+    },
+    {
+      "file": "coast-08.wav",
+      "frequencyHz": 30.987734021949645,
+      "cycles": 17,
+      "frames": 26333,
+      "phaseOffsetCycles": 0.5126953125
+    },
+    {
+      "file": "coast-09.wav",
+      "frequencyHz": 32.06412825651302,
+      "cycles": 18,
+      "frames": 26946,
+      "phaseOffsetCycles": 0.49853515625
+    },
+    {
+      "file": "coast-10.wav",
+      "frequencyHz": 34.557235421166304,
+      "cycles": 19,
+      "frames": 26391,
+      "phaseOffsetCycles": 0.8125
+    },
+    {
+      "file": "coast-11.wav",
+      "frequencyHz": 35.847647498132936,
+      "cycles": 20,
+      "frames": 26780,
+      "phaseOffsetCycles": 0.12109375
+    },
+    {
+      "file": "coast-12.wav",
+      "frequencyHz": 37.35408560311284,
+      "cycles": 21,
+      "frames": 26985,
+      "phaseOffsetCycles": 0.2578125
+    },
+    {
+      "file": "coast-13.wav",
+      "frequencyHz": 38.992688870836716,
+      "cycles": 22,
+      "frames": 27082,
+      "phaseOffsetCycles": 0.27294921875
+    },
+    {
+      "file": "coast-14.wav",
+      "frequencyHz": 40.20100502512563,
+      "cycles": 23,
+      "frames": 27462,
+      "phaseOffsetCycles": 0.79345703125
+    },
+    {
+      "file": "coast-15.wav",
+      "frequencyHz": 41.48660328435609,
+      "cycles": 23,
+      "frames": 26611,
+      "phaseOffsetCycles": 0.24951171875
+    },
+    {
+      "file": "coast-16.wav",
+      "frequencyHz": 42.742653606411395,
+      "cycles": 24,
+      "frames": 26952,
+      "phaseOffsetCycles": 0.18408203125
+    },
+    {
+      "file": "coast-17.wav",
+      "frequencyHz": 44.158233670653175,
+      "cycles": 25,
+      "frames": 27175,
+      "phaseOffsetCycles": 0.23291015625
+    },
+    {
+      "file": "coast-18.wav",
+      "frequencyHz": 45.497630331753555,
+      "cycles": 26,
+      "frames": 27430,
+      "phaseOffsetCycles": 0.88330078125
+    },
+    {
+      "file": "coast-19.wav",
+      "frequencyHz": 46.287367405978785,
+      "cycles": 26,
+      "frames": 26962,
+      "phaseOffsetCycles": 0.6064453125
+    },
+    {
+      "file": "coast-20.wav",
+      "frequencyHz": 47.1976401179941,
+      "cycles": 27,
+      "frames": 27459,
+      "phaseOffsetCycles": 0.93310546875
+    }
+  ],
+  "idle": {
+    "file": "idle.wav",
+    "frames": 160970
+  },
+  "sampleRate": 48000
+}
