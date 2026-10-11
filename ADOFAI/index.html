@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<base href="https://cdn.jsdelivr.net/gh/nawsif/host@main/ADOFAI/">
+<script src="https://tinklehost.github.io/intro.js"></script>
 <title>A Dance of Fire and Ice</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,20 +29,18 @@ button{color:#ffcf65;background:#252525;border:1px solid #d6a538;border-radius:8
 <canvas id="unity-canvas" tabindex="0" aria-label="A Dance of Fire and Ice game"></canvas>
 <div id="loading" role="status" aria-live="polite">
 <div class="tinkle-diamond" aria-hidden="true"></div>
-<div class="tinkle-title">TINKLE GAMES</div>
 <div class="tinkle-track" role="progressbar" aria-label="Game loading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="tinkle-progress"></div></div>
 <div id="tinkle-percent">0%</div>
 <p id="status">Preparing game...</p>
 <button id="retry" hidden>Try again</button></div>
 <div id="play-screen" hidden style="position:fixed;inset:0;z-index:71;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:#414141;text-align:center">
-<div class="tinkle-title">TINKLE GAMES</div>
 <button id="play" style="padding:14px 48px;font-weight:bold">PLAY</button>
 <p style="color:#dedede;margin:0">Click to start with sound</p>
 </div>
 <script>
 "use strict";
 // Build and StreamingAssets must be alongside this page.
-const BUILD="Build/", VERSION="tinkle-audio-3", PARTS={data:9,wasm:7};
+const BUILD="Build/", VERSION="tinkle-cdn-audio-4", PARTS={data:9,wasm:7};
 const canvas=document.getElementById("unity-canvas"), loading=document.getElementById("loading"), status=document.getElementById("status"), progress=document.getElementById("tinkle-progress"), retry=document.getElementById("retry");
 const objectUrls=[];
 let unityInstance,failed=false,completed=0;
@@ -102,7 +102,7 @@ async function joinParts(name,count,type){
 }
 function loadScript(url){return new Promise((resolve,reject)=>{const script=document.createElement("script");script.src=url;script.onload=resolve;script.onerror=()=>reject(new Error("Could not load "+BUILD+"WebGL.loader.js."));document.body.appendChild(script);});}
 async function start(){
-  if(location.protocol==="file:")throw new Error("Open this game through a web server, such as http://localhost:8000, rather than directly from disk.");
+  if(location.protocol==="file:"&&new URL(document.baseURI).protocol==="file:")throw new Error("Open this game through a web server, such as http://localhost:8000, rather than directly from disk.");
   const [dataUrl,codeUrl]=await Promise.all([
     joinParts("WebGL.data",PARTS.data,"application/octet-stream"),
     joinParts("WebGL.wasm",PARTS.wasm,"application/wasm"),
@@ -111,7 +111,7 @@ async function start(){
   status.textContent="Starting game…";
   unityInstance=await createUnityInstance(canvas,{
     dataUrl,codeUrl,frameworkUrl:BUILD+"WebGL.framework.js?v="+VERSION,
-    streamingAssetsUrl:"StreamingAssets",companyName:"7th Beat Games",productName:"A Dance of Fire and Ice",productVersion:"2.0.3",
+    streamingAssetsUrl:new URL("StreamingAssets/",document.baseURI).href,companyName:"7th Beat Games",productName:"A Dance of Fire and Ice",productVersion:"2.0.3",
     matchWebGLToCanvasSize:true,
     showBanner(message,type){if(type==="error")fail(message);else console.warn(message);}
   },value=>{if(!failed)setProgress(.75+value*.25);});
