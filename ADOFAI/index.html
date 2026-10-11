@@ -32,13 +32,57 @@ button{color:#ffcf65;background:#252525;border:1px solid #d6a538;border-radius:8
 <div id="tinkle-percent">0%</div>
 <p id="status">Preparing game...</p>
 <button id="retry" hidden>Try again</button></div>
+<div id="play-screen" hidden style="position:fixed;inset:0;z-index:71;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:#414141;text-align:center">
+<div class="tinkle-title">TINKLE GAMES</div>
+<button id="play" style="padding:14px 48px;font-weight:bold">PLAY</button>
+<p style="color:#dedede;margin:0">Click to start with sound</p>
+</div>
 <script>
 "use strict";
 // Build and StreamingAssets must be alongside this page.
-const BUILD="Build/", VERSION="tinkle-fullscreen-2", PARTS={data:9,wasm:7};
+const BUILD="Build/", VERSION="tinkle-audio-3", PARTS={data:9,wasm:7};
 const canvas=document.getElementById("unity-canvas"), loading=document.getElementById("loading"), status=document.getElementById("status"), progress=document.getElementById("tinkle-progress"), retry=document.getElementById("retry");
 const objectUrls=[];
 let unityInstance,failed=false,completed=0;
+// Browser audio requires a real user gesture. Track Unity's audio context and
+// retry media playback that autoplay policy rejected before the PLAY click.
+const audioContexts=new Set(),blockedMedia=new Set();
+const NativeAudioContext=window.AudioContext||window.webkitAudioContext;
+if(NativeAudioContext){
+  const TrackedAudioContext=new Proxy(NativeAudioContext,{construct(target,args){
+    const context=Reflect.construct(target,args);audioContexts.add(context);
+    context.addEventListener("statechange",()=>console.info("[Game audio] context "+context.state));
+    return context;
+  }});
+  window.AudioContext=TrackedAudioContext;
+  if(window.webkitAudioContext)window.webkitAudioContext=TrackedAudioContext;
+}
+const nativePlay=HTMLMediaElement.prototype.play;
+HTMLMediaElement.prototype.play=function(){
+  const media=this;
+  const result=nativePlay.call(media);
+  if(result&&result.then)result.then(()=>blockedMedia.delete(media),error=>{
+    if(error.name==="NotAllowedError")blockedMedia.add(media);
+  });
+  return result;
+};
+const nativePause=HTMLMediaElement.prototype.pause;
+HTMLMediaElement.prototype.pause=function(){blockedMedia.delete(this);return nativePause.call(this);};
+function enableAudio(){
+  audioContexts.forEach(context=>{
+    if(context.state!=="closed"&&context.state!=="running")context.resume().catch(console.warn);
+  });
+  blockedMedia.forEach(media=>{
+    if(media.ended||!media.src){blockedMedia.delete(media);return;}
+    const result=nativePlay.call(media);
+    if(result)result.then(()=>{blockedMedia.delete(media);console.info("[Game audio] media playing");}).catch(console.warn);
+  });
+}
+window.addEventListener("pointerdown",enableAudio,true);
+window.addEventListener("keydown",enableAudio,true);
+document.getElementById("play").addEventListener("click",()=>{
+  enableAudio();document.getElementById("play-screen").hidden=true;canvas.focus();
+});
 let lastProgress=0;
 function setProgress(value){lastProgress=Math.max(lastProgress,Math.min(100,value*100));progress.style.width=lastProgress+"%";document.getElementById("tinkle-percent").textContent=Math.floor(lastProgress)+"%";document.querySelector(".tinkle-track").setAttribute("aria-valuenow",Math.floor(lastProgress));}
 function fail(error){failed=true;loading.hidden=false;status.textContent=error instanceof Error?error.message:String(error);retry.hidden=false;document.querySelector(".tinkle-diamond").style.animationPlayState="paused";}
@@ -72,8 +116,7 @@ async function start(){
     showBanner(message,type){if(type==="error")fail(message);else console.warn(message);}
   },value=>{if(!failed)setProgress(.75+value*.25);});
   objectUrls.forEach(url=>URL.revokeObjectURL(url));
-  if(!failed){setProgress(1);status.textContent="Ready!";loading.classList.add("fading");setTimeout(()=>{loading.hidden=true;},750);}
-  canvas.focus();
+  if(!failed){setProgress(1);status.textContent="Ready!";loading.classList.add("fading");setTimeout(()=>{loading.hidden=true;document.getElementById("play-screen").hidden=false;document.getElementById("play").focus();},750);}
 }
 // Fill the browser window automatically. Double-click for browser fullscreen.
 canvas.addEventListener("dblclick",()=>{if(unityInstance&&!document.fullscreenElement)unityInstance.SetFullscreen(1);});
