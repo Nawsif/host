@@ -1861,12 +1861,12 @@ var tempI64;
 // === Body ===
 
 var ASM_CONSTS = {
-  5893964: function() {Module['emscripten_get_now_backup'] = performance.now;},  
- 5894019: function($0) {performance.now = function() { return $0; };},  
- 5894067: function($0) {performance.now = function() { return $0; };},  
- 5894115: function() {performance.now = Module['emscripten_get_now_backup'];},  
- 5894170: function() {return Module.webglContextAttributes.premultipliedAlpha;},  
- 5894231: function() {return Module.webglContextAttributes.preserveDrawingBuffer;}
+  5894444: function() {Module['emscripten_get_now_backup'] = performance.now;},  
+ 5894499: function($0) {performance.now = function() { return $0; };},  
+ 5894547: function($0) {performance.now = function() { return $0; };},  
+ 5894595: function() {performance.now = Module['emscripten_get_now_backup'];},  
+ 5894650: function() {return Module.webglContextAttributes.premultipliedAlpha;},  
+ 5894711: function() {return Module.webglContextAttributes.preserveDrawingBuffer;}
 };
 
 

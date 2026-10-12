@@ -35,12 +35,11 @@ button{color:#ffcf65;background:#252525;border:1px solid #d6a538;border-radius:8
 <button id="retry" hidden>Try again</button></div>
 <div id="play-screen" hidden style="position:fixed;inset:0;z-index:71;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:#414141;text-align:center">
 <button id="play" style="padding:14px 48px;font-weight:bold">PLAY</button>
-<p style="color:#dedede;margin:0">Click to start with sound</p>
 </div>
 <script>
 "use strict";
 // Build and StreamingAssets must be alongside this page.
-const BUILD="Build/", VERSION="tinkle-cdn-audio-4", PARTS={data:9,wasm:7};
+const BUILD="Build/", VERSION="tinkle-routing-6", PARTS={data:9,wasm:7};
 const canvas=document.getElementById("unity-canvas"), loading=document.getElementById("loading"), status=document.getElementById("status"), progress=document.getElementById("tinkle-progress"), retry=document.getElementById("retry");
 const objectUrls=[];
 let unityInstance,failed=false,completed=0;
