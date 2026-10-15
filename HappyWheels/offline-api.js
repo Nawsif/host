@@ -6,7 +6,8 @@
   XMLHttpRequest.prototype.open = function (method, url, ...args) {
     pending.delete(this);
     const target = new URL(url, document.baseURI);
-    if (target.origin === location.origin && /\/(?:get_level|set_level|user|steam|replay)\.hw$/.test(target.pathname)) {
+    const base=new URL('./',document.baseURI);
+    if (target.origin === base.origin && target.pathname.startsWith(base.pathname) && /\/(?:get_level|set_level|user|steam|replay)\.hw$/.test(target.pathname)) {
       pending.set(this, {path:target.pathname, args, query:target.search});
       return open.call(this, 'GET', new URL('./offline/unavailable.txt', document.baseURI).href, ...args);
     }
@@ -51,7 +52,7 @@
     open.call(this, 'GET', new URL(file, document.baseURI).href, ...request.args);
     this.responseType = responseType;
     this.timeout = timeout;
-    this.withCredentials = backend&&file.startsWith(backend+'/')?false:withCredentials;
+    this.withCredentials = new URL(file,document.baseURI).origin!==location.origin?false:withCredentials;
     if (blobURL) this.addEventListener('loadend', () => URL.revokeObjectURL(blobURL), {once:true});
     return send.call(this, null);
   };
