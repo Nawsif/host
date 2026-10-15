@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; connect-src 'self' blob: data: https://happy-wheels-api.nawsifsspammail.workers.dev; object-src 'none'">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Happy Wheels</title>
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000}#og-game-holder{width:100%;height:100%}canvas{display:block}#loading{position:fixed;inset:0;background:#111;color:#eee;display:grid;place-content:center;text-align:center;font:16px system-ui;z-index:9999}#loading p{max-width:38em;padding:0 20px;white-space:pre-wrap}#loading.error{background:#241818}h1{font-size:28px}
+</style>
+</head>
+<body>
+<div id="og-game-holder"></div>
+<div id="loading"><h1>Happy Wheels</h1><p id="status">Loading game assets…</p></div>
+<script>
+window.HW_SETTINGS={siteURL:"./",user_id:1,username:"Player",disableUpload:false};
+window.addEventListener('hw-ready',()=>document.getElementById('loading')?.remove());
+function showFailure(message){const el=document.getElementById('loading');if(el){el.classList.add('error');document.getElementById('status').textContent=message;}}
+window.addEventListener('error',event=>{if(event.target?.tagName==='SCRIPT')showFailure('A game file could not load. Upload the complete dist folder.');else if(event.message)showFailure(event.message);},true);
+window.addEventListener('unhandledrejection',event=>showFailure(String(event.reason?.message||event.reason)));
+if(location.protocol==='file:')showFailure('Serve this folder over HTTP, or upload its contents to GitHub Pages.');
+</script>
+<script src="./browser-preferences.js"></script>
+<script src="./backend-config.js"></script>
+<script src="./hwNative-polyfill.js"></script>
+<script src="./offline-catalog.js"></script>
+<script src="./offline/browse-catalog.js"></script>
+<script src="./offline-api.js"></script>
+<script src="./js/dependencies.js"></script>
+<script src="./js/index.js"></script>
+</body>
+</html>
