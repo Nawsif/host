@@ -84,6 +84,37 @@ var out = console.log.bind(console);
 
 var err = console.error.bind(console);
 
+// Guest page allocator diagnostics (read-only; 64 KiB granules).
+// Addresses were verified against rt_alloc_pages in the matching wasm build.
+function inspectGuestAllocator(requestBytes = 0) {
+  try {
+    if (!wasmMemory || !HEAPU8) return null;
+    const view = new DataView(wasmMemory.buffer);
+    const bitmapPtr = view.getUint32(604883276, true);
+    const total = view.getUint32(604883272, true);
+    const low = view.getUint32(604883268, true);
+    const hint = view.getUint32(604883280, true);
+    const usedCounter = view.getUint32(604883284, true);
+    if (!total || total > 1000000 || !bitmapPtr || bitmapPtr + total > HEAPU8.length) return null;
+    let free = 0, used = 0, longest = 0, run = 0, runs = 0;
+    for (let i = low; i < total; i++) {
+      if (HEAPU8[bitmapPtr + i] === 0) {
+        free++; run++;
+        if (run === 1) runs++;
+        longest = Math.max(longest, run);
+      } else { used++; run = 0; }
+    }
+    const result = {guestMiB: total / 16, reservedGranules: low, availableMiB: free / 16,
+      usedMiB: used / 16, largestContiguousFreeMiB: longest / 16,
+      freeRuns: runs, nextSearchHint: hint, allocationCount: usedCounter,
+      requestedMiB: requestBytes / 1048576,
+      contiguousRequestFits: !requestBytes || longest >= Math.ceil(requestBytes / 65536)};
+    console.warn('[guest allocator diagnostics]', result);
+    return result;
+  } catch (e) { console.warn('[guest allocator diagnostics failed]', e); return null; }
+}
+Module.inspectGuestAllocator = inspectGuestAllocator;
+
 // end include: shell.js
 // include: preamble.js
 // === Preamble library stuff ===
@@ -5655,7 +5686,7 @@ var RXC = {
   nextFd: 3,
   cache: new Map,
   cacheBytes: 0,
-  cacheLimit: 134217728, // Reduced from 768 MiB to 128 MiB to limit browser-side asset cache
+  cacheLimit: 805306368,
   overlay: new Map,
   status: s => {
     if (Module["onStatus"]) Module["onStatus"](s); else {
@@ -7374,6 +7405,18 @@ for (/**@suppress{duplicate}*/ var i = 0; i <= 288; ++i) {
   if (Module["noExitRuntime"]) noExitRuntime = Module["noExitRuntime"];
   if (Module["print"]) out = Module["print"];
   if (Module["printErr"]) err = Module["printErr"];
+let reportedGuestOOM = false;
+const previousErr = err;
+err = (...args) => {
+  previousErr(...args);
+  if (!reportedGuestOOM && args.some(v => /guest out of memory/i.test(String(v)))) {
+    reportedGuestOOM = true;
+    const m = String(args.find(v => /guest out of memory/i.test(String(v))));
+    const match = m.match(/request\s+(\d+)\s+bytes/i);
+    inspectGuestAllocator(match ? Number(match[1]) : 0);
+  }
+};
+
   // End ATMODULES hooks
   if (Module["arguments"]) programArgs = Module["arguments"];
   if (Module["thisProgram"]) thisProgram = Module["thisProgram"];
