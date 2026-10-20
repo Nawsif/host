@@ -5655,7 +5655,7 @@ var RXC = {
   nextFd: 3,
   cache: new Map,
   cacheBytes: 0,
-  cacheLimit: 805306368,
+  cacheLimit: 134217728, // Reduced from 768 MiB to 128 MiB to limit browser-side asset cache
   overlay: new Map,
   status: s => {
     if (Module["onStatus"]) Module["onStatus"](s); else {
