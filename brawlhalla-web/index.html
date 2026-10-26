@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-PXHK7Q7G3Z");</script>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brawlhalla</title>
+<style>
+  html,body{margin:0;height:100%;overflow:hidden;background:#000}
+  #stage{position:fixed;inset:0}
+  #stage>*{position:absolute;left:0;top:0;transform-origin:0 0}
+  #boot{position:fixed;inset:0;display:grid;place-items:center;background:#000;transition:opacity .3s}
+  #boot.done{opacity:0;pointer-events:none}
+  #spin{width:36px;height:36px;box-sizing:border-box;border:3px solid #2a2a2a;border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
+  #error{position:fixed;left:0;right:0;bottom:24px;text-align:center;color:#888;font:13px system-ui,sans-serif}
+  @keyframes spin{to{transform:rotate(360deg)}}
+</style>
+<div id="stage"></div>
+<div id="boot"><div id="spin"></div></div>
+<div id="error"></div>
+<script>
+  const params = new URLSearchParams(location.search);
+
+  const rawFetch = window.fetch.bind(window);
+  window.fetch = async (input, init) => {
+    if (init && init.method && init.method !== 'GET' && init.method !== 'HEAD') return rawFetch(input, init);
+    for (let attempt = 0; ; attempt++) {
+      try {
+        const res = await rawFetch(input, init);
+        if ((res.status < 500 && res.status !== 408) || attempt === 4) return res;
+      } catch (e) {
+        if (attempt === 4) throw e;
+      }
+      await new Promise(ok => setTimeout(ok, 150 * (attempt + 1)));
+    }
+  };
+
+  window.RufflePlayer = {
+    config: {
+      publicPath: new URL('ruffle/', location.href).href,
+      playerRuntime: 'air',
+      autoplay: 'on',
+      unmuteOverlay: 'hidden',
+      splashScreen: false,
+      contextMenu: 'off',
+      letterbox: 'on',
+      scale: 'showAll',
+      forceScale: true,
+      preferredRenderer: params.get('renderer') || 'wgpu-webgl',
+      maxExecutionDuration: 120,
+      logLevel: params.get('log') || 'warn'
+    }
+  };
+
+  async function script(url) {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('Could not load ' + url);
+    (0, eval)(await res.text());
+  }
+
+  async function start() {
+    for (const url of ['ruffle/ruffle.js', 'ruffleAir.js', 'extensions.js', 'native.js', 'native/rawdata.js']) {
+      await script(url);
+    }
+    ruffleAir.configure({ base: 'game/', arguments: ['-forceoffline'] });
+
+    const servers = params.has('offline') ? null
+      : await fetch('servers.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null);
+    if (servers && servers.login) {
+      const args = ['-noeac', '-h', '127.0.0.1', '-p', String(servers.login)];
+      ruffleAir.configure({ arguments: args });
+      useOwnServers(args, params.get('name'), servers);
+      RufflePlayer.config.socketProxy = [
+        { host: '*', port: 0, proxyUrl: location.origin.replace(/^http/, 'ws') + '/ws/{host}/{port}' }
+      ];
+    }
+
+    const [names, startup] = await Promise.all([
+      ruffleAir.load('files.json'),
+      fetch('startup.json').then(r => r.json()).catch(() => null)
+    ]);
+    await ruffleAir.open();
+    registerNative('RawData', await loadNative(createPEModule, 'native/rawdata.wasm'));
+
+    let packed = 0;
+    try {
+      packed = await ruffleAir.loadPack('startup.pack');
+    } catch (e) {
+      packed = 0;
+    }
+    if (!packed) {
+      await ruffleAir.warm(startup || names.filter(n => !n.includes('/') && (/\.swz$/i.test(n) || n === 'BrawlhallaAir.swf')));
+    }
+
+    const player = RufflePlayer.newest().createPlayer();
+    const stage = document.getElementById('stage');
+    stage.appendChild(player);
+    const fit = () => {
+      const w = stage.clientWidth, h = stage.clientHeight;
+      const gameW = Math.min(w, h * 16 / 9), gameH = gameW * 9 / 16;
+      const stretch = Math.abs(w / h / (16 / 9) - 1) <= 0.12;
+      player.style.width = gameW + 'px';
+      player.style.height = gameH + 'px';
+      player.style.left = stretch ? '0' : (w - gameW) / 2 + 'px';
+      player.style.top = stretch ? '0' : (h - gameH) / 2 + 'px';
+      player.style.transform = stretch ? 'scale(' + w / gameW + ',' + h / gameH + ')' : 'none';
+    };
+    fit();
+    new ResizeObserver(fit).observe(stage);
+    player.addEventListener('loadeddata', () => document.getElementById('boot').classList.add('done'));
+    await player.ruffle().load({ url: 'game/BrawlhallaAir.swf', allowScriptAccess: true });
+  }
+
+  start().catch(e => {
+    document.getElementById('error').textContent = String(e && e.message || e);
+  });
+</script>
+</html>

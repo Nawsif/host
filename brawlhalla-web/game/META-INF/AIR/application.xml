@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<application xmlns="http://ns.adobe.com/air/application/51.0">
+  <id>BrawlhallaAir</id>
+  <versionNumber>1.0</versionNumber> 
+  <filename>Brawlhalla</filename> 
+  <architecture>64</architecture>
+  
+  <name>Brawlhalla</name> 
+  <description></description> 
+  <copyright></copyright>
+  
+  <extensions>
+    <extensionID>SteamAir</extensionID>
+    <extensionID>MultiKeyboard</extensionID>
+    <extensionID>RawData</extensionID>
+    <extensionID>DnaManager</extensionID>
+    <extensionID>EpicAir</extensionID>
+	<extensionID>WindowsExtensionWrapper</extensionID>
+	<extensionID>DesktopExtension</extensionID>
+	<extensionID>SoundEngineExtension</extensionID>
+  </extensions>
+  
+  <icon> 
+    <image16x16>icons/desktop16.png</image16x16>
+    <image32x32>icons/desktop32.png</image32x32>
+    <image48x48>icons/desktop48.png</image48x48>
+    <image128x128>icons/desktop128.png</image128x128>
+  </icon>
+  
+  <supportedProfiles>extendedDesktop</supportedProfiles>
+  
+  <initialWindow> 
+    <title>Brawlhalla</title> 
+    <content>BrawlhallaAir.swf</content> 
+    <systemChrome>standard</systemChrome> 
+    <transparent>false</transparent> 
+    <visible>true</visible> 
+    <minimizable>true</minimizable> 
+    <maximizable>true</maximizable> 
+    <resizable>true</resizable> 
+    <renderMode>direct</renderMode>
+  </initialWindow> 
+  
+</application>
